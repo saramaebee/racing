@@ -49,7 +49,12 @@ bun run lint
 
 ## Deploy to racing.saratonin.dev
 
-Runs as a systemd unit on the GCE VM, behind Caddy for HTTPS (same pattern as atmosfera-web).
+**Live at https://racing.saratonin.dev.** Runs as a systemd unit (`racing`) on the
+`dashboard-vm` GCE instance (project `screeps-dash`, the same box as atmosfera), on port
+**3001** behind Caddy. DNS A record lives in the `saratonin-dev` zone (project
+`saratonin-staging`). Push to `main` auto-deploys via the workflow below.
+
+The steps below document the original setup (already done):
 
 1. **DNS** — add an A record `racing.saratonin.dev` → the VM's public IP.
 2. **Install on the VM:**
@@ -61,7 +66,7 @@ Runs as a systemd unit on the GCE VM, behind Caddy for HTTPS (same pattern as at
 3. **Caddy** — add a site block and reload:
    ```
    racing.saratonin.dev {
-     reverse_proxy localhost:3000
+     reverse_proxy localhost:3001
    }
    ```
    ```sh
