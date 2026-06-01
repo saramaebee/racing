@@ -73,9 +73,7 @@ export function ChampionshipPage({
           rows={standings.byTotalTime}
           nameOf={nameOf}
           empty={
-            standings.hasAnyTime
-              ? 'No racer has a time in every run yet.'
-              : 'Enter run times to rank.'
+            standings.hasAnyTime ? 'No racer has a time in every run yet.' : 'No times entered yet.'
           }
           incomplete={standings.incompleteTotal.map((id) => nameOf.get(id) ?? '?')}
         />
@@ -84,7 +82,7 @@ export function ChampionshipPage({
           sub="Fastest single run · lowest wins"
           rows={standings.byBestRun}
           nameOf={nameOf}
-          empty="Enter run times to rank."
+          empty="No times entered yet."
         />
         <PointsBoard rows={standings.byPoints} nameOf={nameOf} />
       </div>
@@ -109,16 +107,18 @@ export function ChampionshipPage({
           </div>
         </div>
 
-        {mode === 'places' ? (
-          <p class="muted" style="margin-top:-4px;">
-            Enter finishing place (1 = first) when there's no stopwatch. Times leaderboards need
-            actual times.
-          </p>
-        ) : (
-          <p class="muted" style="margin-top:-4px;">
-            Enter each run's time, e.g. <code>45.231</code> or <code>1:02.5</code>.
-          </p>
-        )}
+        {isEditor ? (
+          mode === 'places' ? (
+            <p class="muted" style="margin-top:-4px;">
+              Enter finishing place (1 = first) when there's no stopwatch. Times leaderboards need
+              actual times.
+            </p>
+          ) : (
+            <p class="muted" style="margin-top:-4px;">
+              Enter each run's time, e.g. <code>45.231</code> or <code>1:02.5</code>.
+            </p>
+          )
+        ) : null}
 
         <form method="post" action={`/c/${champ.id}/results?mode=${mode}`}>
           <div class="grid-scroll">
